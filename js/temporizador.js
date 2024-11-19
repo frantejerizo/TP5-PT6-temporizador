@@ -12,6 +12,10 @@ const botonPararTiempo = document.getElementById("botonPausar")
 const botonReiniciarTiempo = document.getElementById("botonReiniciar")
 const botonTemporizador = document.getElementById("botonTempo")
 
+botonIniciarTiempo.classList.add("disabled");
+botonPararTiempo.classList.add("disabled");
+botonReiniciarTiempo.classList.add("disabled")
+
 botonPararTiempo.addEventListener("click",() => {clearInterval(tiempo); botonIniciarTiempo.classList.remove("disabled"); botonPararTiempo.classList.add("disabled")})
 
 botonIniciarTiempo.addEventListener("click",() => {tiempo = setInterval(empezarTiempo,1000); botonIniciarTiempo.classList.add("disabled"); botonPararTiempo.classList.remove("disabled")})
@@ -22,6 +26,10 @@ botonReiniciarTiempo.addEventListener("click",reiniciarTiempo)
 function enviarForm(e)
 {
     e.preventDefault()
+
+    botonIniciarTiempo.classList.remove("disabled");
+    botonPararTiempo.classList.remove("disabled");
+    botonReiniciarTiempo.classList.remove("disabled")
 
     const inputHoras = document.getElementById("horas")
     const inputMinutos = document.getElementById("minutos")
@@ -46,9 +54,9 @@ function enviarForm(e)
         inputSegundos.value = "00"
     }
 
-    horas.innerText = inputHoras.value
-    minutos.innerText = inputMinutos.value
-    segundos.innerText = inputSegundos.value
+    horas.innerText = inputHoras.value.toString().padStart(2, "0")
+    minutos.innerText = inputMinutos.value.toString().padStart(2, "0")
+    segundos.innerText = inputSegundos.value.toString().padStart(2, "0")
 
     tiempo = setInterval(empezarTiempo,1000)
     botonTemporizador.classList.add("disabled")
@@ -84,16 +92,19 @@ function empezarTiempo()
                 clearInterval(tiempo);
                 alert("¡El tiempo ha terminado!");
 
-                // Rehabilitar los botones
+                // Rehabilitar el boton del tempo y deshabilitar el resto
                 botonTemporizador.classList.remove("disabled");
-                botonIniciarTiempo.classList.remove("disabled");
+
+                botonIniciarTiempo.classList.add("disabled");
+                botonPararTiempo.classList.add("disabled");
+                botonReiniciarTiempo.classList.add("disabled")
 
                 // Borramos los valores de los inputs
                 document.getElementById("horas").value = "";
                 document.getElementById("minutos").value = "";
                 document.getElementById("segundos").value = "";
 
-                // Opcional: Resetear el reloj visual a 00:00:00
+                // Resetear el reloj visual a 00:00:00
                 horas.innerText = "00";
                 minutos.innerText = "00";
                 segundos.innerText = "00";
@@ -114,8 +125,9 @@ function reiniciarTiempo()
     document.getElementById("segundos").value = "";
 
     botonTemporizador.classList.remove("disabled");
-    botonIniciarTiempo.classList.remove("disabled");
-    botonPararTiempo.classList.remove("disabled");
+    botonIniciarTiempo.classList.add("disabled");
+    botonPararTiempo.classList.add("disabled");
+    botonReiniciarTiempo.classList.add("disabled")
 
     alert(`Se reinició el tiempo, vuelve a ingresar otro.`)
 }
